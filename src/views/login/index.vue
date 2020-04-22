@@ -1,15 +1,15 @@
 <template>
     <div class="login-container">
         <div class="login-head"></div>
-      <el-form ref="form" :model="user" class="login-form">
-        <el-form-item >
-          <el-input v-model="user.mobile" placeholder="手机号"></el-input>
+      <el-form ref="login-form" :model="user" :rules="formRules" class="login-form">
+        <el-form-item prop="mobile" >
+          <el-input :model="user" v-model="user.mobile" placeholder="13911111111"></el-input>
         </el-form-item>
-        <el-form-item >
-          <el-input v-model="user.code" placeholder="验证码"></el-input>
+        <el-form-item prop="code" >
+          <el-input v-model="user.code" placeholder="246810"></el-input>
         </el-form-item>
-        <el-form-item >
-           <el-checkbox v-model="checked"> 我已阅读并同意用户协议和隐私条款</el-checkbox>
+        <el-form-item prop="agree">
+           <el-checkbox v-model="user.agree"> 我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button :loading="loginLoading" class="login-btn" type="primary" @click="onLogin">登录</el-button>
@@ -19,36 +19,60 @@
 </template>
 
 <script>
-import request from '@/utlis/request'
+import { userlogin } from '@/api/user'
 export default {
   name: 'LoginIndex',
   data () {
     return {
       user: {
         mobile: '',
-        code: ''
+        code: '',
+        agree: false
       },
-      checked: false,
-      loginLoading: false
+      loginLoading: false,
+      formRules: {
+        mobile: [
+          { required: true, message: '手机号不能为空', trigger: 'change' },
+          { pattern: /^1[3|5|7|8|9]\d{9}$/, message: '请输入正确的号码格式', trigger: 'change' }
+        ],
+        code: [
+          { required: true, message: '验证码不能为空', trigger: 'change' },
+          { pattern: /^\d{6}$/, message: '请输入正确的验证码格式', trigger: 'change' }
+        ],
+        agree: [
+          {
+            validator: (rule, value, callback) => {
+              if (value) {
+                callback()
+              } else {
+                callback(new Error('请同意用户协议'))
+              }
+            },
+            trigger: 'change'
+          }
+        ]
+      }
     }
   },
   methods: {
     onLogin () {
-      const userData = this.user
+      this.$refs['login-form'].validate(valid => {
+        if (!valid) {
+          return
+        }
+        this.login()
+      })
+    },
+    login () {
       this.loginLoading = true
-      request({
-        method: 'post',
-        url: 'mp/v1_0/authorizations',
-        data: userData
-      }).then((res) => {
-        console.log(res)
+      userlogin(this.user).then((res) => {
         this.$message({
           message: '恭喜你，登录成功',
           type: 'success'
         })
         this.loginLoading = false
-      }).catch((err) => {
-        console.log(err)
+        this.$router.push('/home')
+      }).catch(() => {
         this.$message.error('登录失败,手机号或验证码错误')
         this.loginLoading = false
       })
