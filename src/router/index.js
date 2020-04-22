@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login'
 import Home from '@/views/home/home.vue'
 import Layout from '@/views/layoutSyS/layout.vue'
+import Connent from '@/views/connentManager/'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
         path: '',
         name: 'home',
         component: Home
+      },
+      {
+        path: '/connent',
+        name: 'connent',
+        component: Connent
       }
     ]
   }

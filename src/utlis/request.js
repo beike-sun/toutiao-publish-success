@@ -5,3 +5,16 @@ const request = axios.create({
   baseURL: 'http://ttapi.research.itcast.cn/'
 })
 export default request
+// 请求拦截器
+// 拦截判断用户是否带有令牌,统一处理
+request.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  const user = JSON.parse(window.localStorage.getItem('user'))
+  if (user) {
+    config.headers.Authorization = `Bearer ${user.token}`
+  }
+  return config
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error)
+})

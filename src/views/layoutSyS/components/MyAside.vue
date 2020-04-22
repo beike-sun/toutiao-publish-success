@@ -13,7 +13,7 @@
         <i class="iconfont iconhome special"></i>
           <span slot="title">首页</span>
       </el-menu-item>
-      <el-menu-item index="/artical">
+      <el-menu-item index="/connent">
         <i class="iconfont icondocument"></i>
         <span slot="title">内容管理</span>
       </el-menu-item>

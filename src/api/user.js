@@ -7,12 +7,14 @@ export const userlogin = (data) => {
     data
   })
 }
+// 获取用户相关信息
+// const user= JSON.parse(window.localStorage.getItem('user'))
 export const getUserProfile = () => {
   return request({
     method: 'get',
-    url: '/mp/v1_0/user/profile',
-    headers: {
-      Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTg5MzM5MjksInVzZXJfaWQiOjEsInJlZnJlc2giOmZhbHNlLCJ2ZXJpZmllZCI6dHJ1ZX0.mMBh0c9ghj0XwWKXfe5eRrXWByBMHd_OWcpyDsLp4hg '
-    }
+    url: '/mp/v1_0/user/profile'
+    // headers: {
+    //   Authorization: `Bearer ${user.token}`
+    // }
   })
 }

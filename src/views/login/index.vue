@@ -70,6 +70,8 @@ export default {
           message: '恭喜你，登录成功',
           type: 'success'
         })
+        // 登录成功，将其token数据存储在本地
+        window.localStorage.setItem('user', JSON.stringify(res.data.data))
         this.loginLoading = false
         this.$router.push('/home')
       }).catch(() => {
