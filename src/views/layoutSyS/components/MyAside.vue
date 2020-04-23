@@ -5,6 +5,7 @@
       text-color="#fff"
       class="navMenu"
       router
+      :collapse="isCollapse"
       active-text-color="#EFD04B">
       <div class="logo"></div>
       <el-menu-item index="/home">
@@ -42,15 +43,19 @@
 
 <script>
 export default {
-  name: 'MyAsideIndex'
+  name: 'MyAsideIndex',
+  props: ['is-collapse'],
+  data () {
+    return {
+    }
+  }
 }
 </script>
 
 <style>
 .logo{
     height: 60px;
-    width: 100%;
-    line-height: 60px;
+    width: 180px;
     background: url('./logo_admin.png') no-repeat 50%/140px auto;
 }
 .navMenu .iconfont{

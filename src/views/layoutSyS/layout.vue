@@ -3,13 +3,16 @@
   <!-- <div>顶部导航栏</div> -->
   <!-- <div>侧边导航栏</div> -->
   <el-container class="layout-container">
-  <el-aside width="200px">
-    <my-aside class="el-menu"></my-aside>
+  <el-aside width="auto" >
+    <my-aside class="el-menu" :is-collapse="isCollapse" ></my-aside>
   </el-aside>
   <el-container>
     <el-header>
       <div class="headerTitle">
-         <i class="el-icon-s-fold"></i>
+         <i :class="{
+           'el-icon-s-fold': isCollapse,
+           'el-icon-s-unfold': !isCollapse
+         }"  @click="isCollapse =!isCollapse"></i>
       <span>江苏传智播客科技教育有限公司</span>
       </div>
       <el-dropdown>
@@ -20,7 +23,7 @@
   </div>
   <el-dropdown-menu slot="dropdown">
     <el-dropdown-item>个人设置</el-dropdown-item>
-    <el-dropdown-item>退出登录</el-dropdown-item>
+    <el-dropdown-item  @click.native="logout">退出登录</el-dropdown-item>
   </el-dropdown-menu>
 </el-dropdown>
     </el-header>
@@ -41,7 +44,8 @@ export default {
   components: { MyAside },
   data () {
     return {
-      user: {}
+      user: {},
+      isCollapse: true
     }
   },
   created () {
@@ -52,6 +56,21 @@ export default {
       getUserProfile().then(res => {
         this.user = res.data.data
         console.log(res)
+      })
+    },
+    logout () {
+      this.$confirm('确定退出吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        window.localStorage.removeItem('user')
+        this.$router.push('/login')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消退出'
+        })
       })
     }
   }
