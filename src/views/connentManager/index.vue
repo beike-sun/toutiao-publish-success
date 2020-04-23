@@ -48,26 +48,46 @@
       :data="connentList"
       style="width: 100%">
       <el-table-column
-        prop="date"
         label="封面"
-        width="180">
+        width="270">
       </el-table-column>
       <el-table-column
         prop="title"
         label="标题"
-        width="180">
+        width="270">
       </el-table-column>
       <el-table-column
-        prop="status"
-        label="状态">
+        label="状态"
+        width="270">
+        <template slot-scope="scope">
+          <el-tag type="info" v-if="scope.row.status === 0" >草稿</el-tag>
+          <el-tag  type="danger" v-if="scope.row.status === 1">待审核</el-tag>
+          <el-tag type="success" v-if="scope.row.status === 2">审核通过</el-tag>
+          <el-tag type="danger" v-if="scope.row.status === 3">审核失败</el-tag>
+          <el-tag type="info" v-if="scope.row.status === 4">已删除</el-tag>
+        </template>
       </el-table-column>
       <el-table-column
         prop="pubdate"
+          width="270"
         label="发布时间">
       </el-table-column>
       <el-table-column
-        prop="address"
         label="操作">
+         <template >
+        <el-button
+          size="mini"
+          circle
+          type="primary"
+          icon="el-icon-edit"
+        ></el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          circle
+          icon="el-icon-delete"
+          ></el-button>
+      </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -86,6 +106,7 @@
 <script>
 import { connent } from '@/api/connent.js'
 export default {
+  name: 'ConnentIndex',
   data () {
     return {
       ruleForm: {
@@ -144,5 +165,8 @@ export default {
 }
 .el-pagination{
     text-align: right;
+}
+.box-card{
+  margin-bottom: 10px;
 }
 </style>
