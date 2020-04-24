@@ -104,12 +104,14 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
+    <!-- 总页数total的实际数据从后台响应得到 -->
 <div class="block">
   <el-pagination
     background
     layout="prev, pager, next"
-    :total="1000">
-  </el-pagination>
+    :total="totalCount"
+    @current-change="onCurrentChange"
+    />
 </div>
   </template>
 </el-card>
@@ -132,6 +134,7 @@ export default {
         resource: '',
         desc: ''
       },
+      totalCount: 0,
       tableData: [
         {
           date: '2016-05-02',
@@ -169,24 +172,32 @@ export default {
       ]
     }
   },
+  created () {
+    this.getConnent()
+  },
   methods: {
     submitForm () {
     //   console.log(666)
     },
-    getConnent () {
+    getConnent (page = 1) {
       connent(
         {
-          page: 1,
-          per_page: 5
+          page,
+          per_page: 10
         }
-
       ).then(res => {
-        this.connentList = res.data.data.results
+        const { results, total_count: totalCount } = res.data.data
+        // 代码规范中不允许有下划线格式的 ，所以需要:重命名
+        // this.connentList = res.data.data.results,
+        // this.totalCount=res.data.data.total_count
+        this.connentList = results
+        this.totalCount = totalCount
       })
+    },
+    onCurrentChange (page) {
+      this.getConnent(page)
+      // console.log(page)
     }
-  },
-  created () {
-    this.getConnent()
   }
 }
 </script>
