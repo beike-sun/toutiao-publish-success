@@ -10,13 +10,13 @@
 <!-- 筛选表单 -->
 <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" >
     <el-form-item label="状态:" prop="resource">
-    <el-radio-group v-model="ruleForm.resource">
-      <el-radio label="全部"></el-radio>
-      <el-radio label="草稿"></el-radio>
-      <el-radio label="待审核"></el-radio>
-      <el-radio label="审核通过"></el-radio>
-      <el-radio label="审核失败"></el-radio>
-      <el-radio label="已删除"></el-radio>
+    <el-radio-group v-model="status">
+      <el-radio label="null">全部</el-radio>
+      <el-radio label="0">草稿</el-radio>
+      <el-radio label="1">待审核</el-radio>
+      <el-radio label="2">审核通过</el-radio>
+      <el-radio label="3">审核失败</el-radio>
+      <el-radio label="4">已删除</el-radio>
     </el-radio-group>
   </el-form-item>
   <el-form-item label="频道:" prop="region">
@@ -34,14 +34,14 @@
     </el-date-picker>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="submitForm()">筛选</el-button>
+    <el-button type="primary" @click="getConnent(1)">筛选</el-button>
   </el-form-item>
 </el-form>
 </el-card>
 <!-- 筛选结果 -->
 <el-card class="box-card">
   <div slot="header" class="clearfix">
-    <span>根据筛选条件共查询到 46147 条结果：</span>
+    <span>根据筛选条件共查询到 {{totalCount}} 条结果：</span>
   </div>
   <template>
     <el-table
@@ -110,6 +110,7 @@
     background
     layout="prev, pager, next"
     :total="totalCount"
+    :page-size="pageSize"
     @current-change="onCurrentChange"
     />
 </div>
@@ -135,6 +136,9 @@ export default {
         desc: ''
       },
       totalCount: 0,
+      pageSize: 10,
+      // 默认不传状态就是全部
+      status: null,
       tableData: [
         {
           date: '2016-05-02',
@@ -183,7 +187,8 @@ export default {
       connent(
         {
           page,
-          per_page: 10
+          per_page: this.pageSize,
+          status: this.status
         }
       ).then(res => {
         const { results, total_count: totalCount } = res.data.data
