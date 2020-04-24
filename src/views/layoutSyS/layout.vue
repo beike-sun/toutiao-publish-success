@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       user: {},
-      isCollapse: true
+      isCollapse: false
     }
   },
   created () {
