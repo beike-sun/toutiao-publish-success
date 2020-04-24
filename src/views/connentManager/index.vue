@@ -174,7 +174,13 @@ export default {
     //   console.log(666)
     },
     getConnent () {
-      connent().then(res => {
+      connent(
+        {
+          page: 1,
+          per_page: 5
+        }
+
+      ).then(res => {
         this.connentList = res.data.data.results
       })
     }

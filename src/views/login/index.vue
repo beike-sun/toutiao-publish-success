@@ -1,7 +1,8 @@
 <template>
     <div class="login-container">
-        <div class="login-head"></div>
+        <!-- <div class="login-head"></div> -->
       <el-form ref="login-form" :model="user" :rules="formRules" class="login-form">
+       <div class="login-head"></div>
         <el-form-item prop="mobile" >
           <el-input :model="user" v-model="user.mobile" placeholder="13911111111"></el-input>
         </el-form-item>
@@ -109,9 +110,6 @@ export default {
 }
 .login-head{
   position: relative;
-  left: 620px;
-  top: 200px;
-  width: 259px;
   height: 57px;
   background: url('./logo_index.png') no-repeat ;
 
