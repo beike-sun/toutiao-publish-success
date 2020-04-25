@@ -106,7 +106,7 @@ v-loading = "loading"
       </el-table-column>
       <el-table-column
         label="操作">
-         <template >
+         <template slot-scope="scope">
         <el-button
           size="mini"
           circle
@@ -118,6 +118,7 @@ v-loading = "loading"
           type="danger"
           circle
           icon="el-icon-delete"
+          @click="onDeleteContent(scope.row.id)"
           ></el-button>
       </template>
       </el-table-column>
@@ -140,7 +141,7 @@ v-loading = "loading"
 </template>
 
 <script>
-import { connent, ConnentChannels } from '@/api/connent.js'
+import { connent, ConnentChannels, deleteContent } from '@/api/connent.js'
 export default {
   name: 'ConnentIndex',
   data () {
@@ -237,6 +238,23 @@ export default {
     onCurrentChange (page) {
       this.getConnent(page)
       // console.log(page)
+    },
+    onDeleteContent (deleteContentId) {
+      this.$confirm('确认删除吗？', '删除提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 确认执行这里
+        deleteContent(deleteContentId).then(res => {
+          console.log(120)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   }
 }

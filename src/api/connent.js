@@ -14,3 +14,10 @@ export const ConnentChannels = () => {
     url: '/mp/v1_0/channels'
   })
 }
+// 删除文章的请求
+export const deleteContent = (contentId) => {
+  return request({
+    method: 'DELETE',
+    url: `/mp/v1_0/articles/${contentId}`
+  })
+}
