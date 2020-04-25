@@ -8,7 +8,9 @@
 </el-breadcrumb>
 </div>
 <!-- 筛选表单 -->
-<el-form :model="ruleForm"  ref="ruleForm" label-width="100px" >
+<el-form :model="ruleForm"  ref="ruleForm"
+v-loading = "loading"
+ label-width="100px" >
     <el-form-item label="状态:" prop="resource">
     <el-radio-group v-model="status">
       <el-radio label="null">全部</el-radio>
@@ -46,7 +48,11 @@
     </el-date-picker>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="getConnent(1)">筛选</el-button>
+    <el-button
+     type="primary"
+    :disabled = "loading"
+     @click="getConnent(1)"
+     >筛选</el-button>
   </el-form-item>
 </el-form>
 </el-card>
@@ -58,6 +64,7 @@
   <template>
     <el-table
       :data="connentList"
+      v-loading="loading"
       style="width: 100%">
       <el-table-column
         label="封面"
@@ -123,6 +130,7 @@
     layout="prev, pager, next"
     :total="totalCount"
     :page-size="pageSize"
+    :disabled = "loading"
     @current-change="onCurrentChange"
     />
 </div>
@@ -154,6 +162,7 @@ export default {
       status: null,
       channelId: null,
       dateList: null,
+      loading: true,
       tableData: [
         {
           date: '2016-05-02',
@@ -200,6 +209,7 @@ export default {
     //   console.log(666)
     },
     getConnent (page = 1) {
+      this.loading = true
       connent(
         {
           page,
@@ -216,6 +226,7 @@ export default {
         // this.totalCount=res.data.data.total_count
         this.connentList = results
         this.totalCount = totalCount
+        this.loading = false
       })
     },
     getConnentChannels () {
