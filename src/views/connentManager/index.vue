@@ -36,6 +36,9 @@
   </el-form-item>
   <el-form-item label="日期:" >
      <el-date-picker
+     v-model="dateList"
+     format="yyyy-MM-dd"
+     value-format="yyyy-MM-dd"
       type="datetimerange"
       start-placeholder="开始日期"
       end-placeholder="结束日期"
@@ -150,6 +153,7 @@ export default {
       // 默认不传状态就是全部
       status: null,
       channelId: null,
+      dateList: null,
       tableData: [
         {
           date: '2016-05-02',
@@ -201,7 +205,9 @@ export default {
           page,
           per_page: this.pageSize,
           status: this.status,
-          channel_id: this.channelId
+          channel_id: this.channelId,
+          begin_pubdate: this.dataList ? this.dateList[0] : null,
+          end_pubdate: this.dataList ? this.dateList[1] : null
         }
       ).then(res => {
         const { results, total_count: totalCount } = res.data.data
