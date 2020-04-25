@@ -12,17 +12,26 @@
     <el-form-item label="状态:" prop="resource">
     <el-radio-group v-model="status">
       <el-radio label="null">全部</el-radio>
-      <el-radio label="0">草稿</el-radio>
-      <el-radio label="1">待审核</el-radio>
-      <el-radio label="2">审核通过</el-radio>
-      <el-radio label="3">审核失败</el-radio>
-      <el-radio label="4">已删除</el-radio>
+      <el-radio :label="0">草稿</el-radio>
+      <el-radio :label="1">待审核</el-radio>
+      <el-radio :label="2">审核通过</el-radio>
+      <el-radio :label="3">审核失败</el-radio>
+      <el-radio :label="4">已删除</el-radio>
     </el-radio-group>
   </el-form-item>
   <el-form-item label="频道:" prop="region">
-    <el-select v-model="ruleForm.region" placeholder="请选择">
-      <el-option label="区域一" value="shanghai"></el-option>
-      <el-option label="区域二" value="beijing"></el-option>
+    <el-select v-model="channelId" placeholder="请选择">
+       <el-option
+      label="全部"
+      value="null "
+      >
+      </el-option>
+      <el-option
+      :label="channel.name"
+      :value="channel.id "
+        v-for="(channel,index) in channels" :key="index"
+      >
+      </el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="日期:" >
@@ -120,7 +129,7 @@
 </template>
 
 <script>
-import { connent } from '@/api/connent.js'
+import { connent, ConnentChannels } from '@/api/connent.js'
 export default {
   name: 'ConnentIndex',
   data () {
@@ -137,8 +146,10 @@ export default {
       },
       totalCount: 0,
       pageSize: 10,
+      channels: [],
       // 默认不传状态就是全部
       status: null,
+      channelId: null,
       tableData: [
         {
           date: '2016-05-02',
@@ -178,6 +189,7 @@ export default {
   },
   created () {
     this.getConnent()
+    this.getConnentChannels()
   },
   methods: {
     submitForm () {
@@ -188,7 +200,8 @@ export default {
         {
           page,
           per_page: this.pageSize,
-          status: this.status
+          status: this.status,
+          channel_id: this.channelId
         }
       ).then(res => {
         const { results, total_count: totalCount } = res.data.data
@@ -197,6 +210,11 @@ export default {
         // this.totalCount=res.data.data.total_count
         this.connentList = results
         this.totalCount = totalCount
+      })
+    },
+    getConnentChannels () {
+      ConnentChannels().then(res => {
+        this.channels = res.data.data.channels
       })
     },
     onCurrentChange (page) {

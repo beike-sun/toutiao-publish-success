@@ -110,7 +110,7 @@ export default {
 }
 .login-head{
   position: relative;
-  height: 57px;
+  height: 70px;
   background: url('./logo_index.png') no-repeat ;
 
 }
