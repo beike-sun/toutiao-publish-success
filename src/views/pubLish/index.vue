@@ -63,6 +63,10 @@ export default {
   },
   created () {
     this.getConnentChannels()
+    // 由于发布文章和修改文章使用同一个组件，所以需要进行判断
+    if (this.$route.query.id) {
+      this.amendContent()
+    }
   },
   methods: {
     onPublish (draft = false) {
@@ -74,6 +78,9 @@ export default {
       ConnentChannels().then(res => {
         this.channels = res.data.data.channels
       })
+    },
+    amendContent () {
+      console.log('amendContent')
     }
   }
 }

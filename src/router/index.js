@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login'
 import Home from '@/views/home/home.vue'
 import Layout from '@/views/layoutSyS/layout.vue'
-import Connent from '@/views/connentManager/'
-import Publish from '@/views/pubLishNew'
+import Connent from '@/views/connent/'
+import Publish from '@/views/pubLish'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -18,7 +18,7 @@ const routes = [
     component: Layout,
     children: [
       {
-        path: '/home',
+        path: '',
         name: 'home',
         component: Home
       },
