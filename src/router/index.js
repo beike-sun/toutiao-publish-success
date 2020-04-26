@@ -4,6 +4,7 @@ import Login from '@/views/login'
 import Home from '@/views/home/home.vue'
 import Layout from '@/views/layoutSyS/layout.vue'
 import Connent from '@/views/connentManager/'
+import Publish from '@/views/pubLishNew'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
         path: '/connent',
         name: 'connent',
         component: Connent
+      },
+      {
+        path: '/publish',
+        name: 'publish',
+        component: Publish
       }
     ]
   }

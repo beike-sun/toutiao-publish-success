@@ -13,7 +13,7 @@ v-loading = "loading"
  label-width="100px" >
     <el-form-item label="状态:" prop="resource">
     <el-radio-group v-model="status">
-      <el-radio label="null">全部</el-radio>
+      <el-radio :label="null">全部</el-radio>
       <el-radio :label="0">草稿</el-radio>
       <el-radio :label="1">待审核</el-radio>
       <el-radio :label="2">审核通过</el-radio>
@@ -219,8 +219,8 @@ export default {
           per_page: this.pageSize,
           status: this.status,
           channel_id: this.channelId,
-          begin_pubdate: this.dataList ? this.dateList[0] : null,
-          end_pubdate: this.dataList ? this.dateList[1] : null
+          begin_pubdate: this.dateList ? this.dateList[0] : null,
+          end_pubdate: this.dateList ? this.dateList[1] : null
         }
       ).then(res => {
         const { results, total_count: totalCount } = res.data.data
