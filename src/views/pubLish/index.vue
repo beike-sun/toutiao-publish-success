@@ -5,7 +5,7 @@
         <!-- 面包屑路径导航 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item to="/home">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>发布文章</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ $route.query.id? '修改文章' : '发表文章'}}</el-breadcrumb-item>
         </el-breadcrumb>
         <!-- /面包屑路径导航 -->
       </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ConnentChannels, addPublishContent, getEditContent } from '@/api/connent.js'
+import { ConnentChannels, addPublishContent, getEditContent, updataContent } from '@/api/connent.js'
 export default {
   name: 'PublishIndex',
   data () {
@@ -70,9 +70,23 @@ export default {
   },
   methods: {
     onPublish (draft = false) {
-      addPublishContent(this.artical, draft).then(res => {
-        console.log(res)
-      })
+      const connentId = this.$route.query.id
+      if (connentId) {
+        updataContent(connentId, this.artical, draft).then(res => {
+          this.$message({
+            message: `${draft ? '存入草稿' : '发表文章'}成功`,
+            type: 'success'
+          })
+          this.$router.push('/connent')
+        })
+      } else {
+        addPublishContent(this.artical, draft).then(res => {
+          this.$message({
+            message: `${draft ? '存入草稿' : '发表文章'}成功`,
+            type: 'success'
+          })
+        })
+      }
     },
     getConnentChannels () {
       ConnentChannels().then(res => {

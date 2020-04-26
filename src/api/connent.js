@@ -39,3 +39,14 @@ export const getEditContent = (connentId) => {
     url: `/mp/v1_0/articles/${connentId}`
   })
 }
+// 更新文章内容的请求
+export const updataContent = (contentId, data, draft) => {
+  return request({
+    method: 'PUT',
+    url: `/mp/v1_0/articles/${contentId}`,
+    params: {
+      draft
+    },
+    data
+  })
+}
