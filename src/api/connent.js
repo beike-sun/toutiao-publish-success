@@ -21,3 +21,14 @@ export const deleteContent = (contentId) => {
     url: `/mp/v1_0/articles/${contentId}`
   })
 }
+// 发表文章的请求
+export const addPublishContent = (data, draft = false) => {
+  return request({
+    method: 'POST',
+    url: '/mp/v1_0/articles',
+    params: {
+      draft
+    },
+    data
+  })
+}

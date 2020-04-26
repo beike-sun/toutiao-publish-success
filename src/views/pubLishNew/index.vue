@@ -35,8 +35,8 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">发表</el-button>
-          <el-button>存入草稿</el-button>
+          <el-button type="primary" @click="onPublish(false)">发表</el-button>
+          <el-button @click="onPublish(true)">存入草稿</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ConnentChannels } from '@/api/connent.js'
+import { ConnentChannels, addPublishContent } from '@/api/connent.js'
 export default {
   name: 'PublishIndex',
   data () {
@@ -53,10 +53,10 @@ export default {
         title: '',
         content: '',
         cover: {
-          type: '',
-          image: []
+          type: 0,
+          images: []
         },
-        channel_id: null
+        channel_id: ''
       },
       channels: []
     }
@@ -65,8 +65,10 @@ export default {
     this.getConnentChannels()
   },
   methods: {
-    onSubmit () {
-      console.log('submit!')
+    onPublish (draft = false) {
+      addPublishContent(this.artical, draft).then(res => {
+        console.log(res)
+      })
     },
     getConnentChannels () {
       ConnentChannels().then(res => {
