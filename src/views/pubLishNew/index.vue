@@ -9,24 +9,29 @@
         </el-breadcrumb>
         <!-- /面包屑路径导航 -->
       </div>
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="form" :model="artical" label-width="80px">
         <el-form-item label="标题">
-    <el-input v-model="form.name"></el-input>
+    <el-input v-model="artical.title"></el-input>
   </el-form-item>
         <el-form-item label="内容">
-          <el-input type="textarea" v-model="form.desc"></el-input>
+          <el-input type="textarea" v-model="artical.content"></el-input>
         </el-form-item>
         <el-form-item label="封面">
-          <el-radio-group v-model="form.resource">
-            <el-radio label="单图"></el-radio>
-            <el-radio label="三图"></el-radio>
-            <el-radio label="无图"></el-radio>
-            <el-radio label="自动"></el-radio>
+          <el-radio-group v-model="artical.cover.type">
+            <el-radio :label="1">单图</el-radio>
+            <el-radio :label="3">三图</el-radio>
+            <el-radio :label="0">无图</el-radio>
+            <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道">
-          <el-select v-model="form.region" placeholder="请选择">
-            <el-option label="区域一" value="shanghai"></el-option>
+          <el-select v-model="artical.channel_id" placeholder="请选择">
+            <el-option
+             :label = "channel.name"
+             :value="channel.id"
+              v-for = "(channel, index) in channels"
+               :key = "index"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -39,24 +44,34 @@
 </template>
 
 <script>
+import { ConnentChannels } from '@/api/connent.js'
 export default {
+  name: 'PublishIndex',
   data () {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      }
+      artical: {
+        title: '',
+        content: '',
+        cover: {
+          type: '',
+          image: []
+        },
+        channel_id: null
+      },
+      channels: []
     }
+  },
+  created () {
+    this.getConnentChannels()
   },
   methods: {
     onSubmit () {
       console.log('submit!')
+    },
+    getConnentChannels () {
+      ConnentChannels().then(res => {
+        this.channels = res.data.data.channels
+      })
     }
   }
 }
