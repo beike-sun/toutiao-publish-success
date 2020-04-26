@@ -32,3 +32,10 @@ export const addPublishContent = (data, draft = false) => {
     data
   })
 }
+// 获取编辑文章的请求
+export const getEditContent = (connentId) => {
+  return request({
+    method: 'GET',
+    url: `/mp/v1_0/articles/${connentId}`
+  })
+}

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ConnentChannels, addPublishContent } from '@/api/connent.js'
+import { ConnentChannels, addPublishContent, getEditContent } from '@/api/connent.js'
 export default {
   name: 'PublishIndex',
   data () {
@@ -65,7 +65,7 @@ export default {
     this.getConnentChannels()
     // 由于发布文章和修改文章使用同一个组件，所以需要进行判断
     if (this.$route.query.id) {
-      this.amendContent()
+      this.editContent()
     }
   },
   methods: {
@@ -79,8 +79,10 @@ export default {
         this.channels = res.data.data.channels
       })
     },
-    amendContent () {
-      console.log('amendContent')
+    editContent () {
+      getEditContent(this.$route.query.id).then(res => {
+        this.artical = res.data.data
+      })
     }
   }
 }
