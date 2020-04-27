@@ -16,6 +16,7 @@
          <el-button
           size="mini"
           type="success"
+          @click="dialogUploadVisible=true"
           >上传素材</el-button>
       </div>
  <!-- 素材列表 -->
@@ -35,7 +36,13 @@
   </el-col>
 </el-row>
 </el-card>
-
+<el-dialog
+ title="上传素材"
+ :visible.sync="dialogUploadVisible"
+ :append-to-body="true"
+ >
+  bee
+</el-dialog>
   </div>
 </template>
 
@@ -47,7 +54,8 @@ export default {
     return {
       images: [],
       // 默认查询全部素材
-      collect: false
+      collect: false,
+      dialogUploadVisible: false
     }
   },
   created () {
