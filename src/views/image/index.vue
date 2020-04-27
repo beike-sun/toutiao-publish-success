@@ -41,7 +41,21 @@
  :visible.sync="dialogUploadVisible"
  :append-to-body="true"
  >
-  bee
+ <!-- 注意：点击上传素材的路径一定要写原生的，因为这里的请求不是通过axios。组件默认content-type是文件形式。自行配置headers -->
+ <el-upload
+  class="upload-demo"
+  drag
+  action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
+  :headers="uploadHeaders"
+  name="image"
+  :on-success="onUploadSuccess"
+  :show-file-list="false"
+  multiple>
+  <i class="el-icon-upload"></i>
+  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
+
 </el-dialog>
   </div>
 </template>
@@ -51,11 +65,15 @@ import { getImages } from '@/api/image'
 export default {
   name: 'imageIndex',
   data () {
+    const user = JSON.parse(window.localStorage.getItem('user'))
     return {
       images: [],
       // 默认查询全部素材
       collect: false,
-      dialogUploadVisible: false
+      dialogUploadVisible: false,
+      uploadHeaders: {
+        Authorization: `Bearer ${user.token}`
+      }
     }
   },
   created () {
@@ -71,6 +89,12 @@ export default {
     },
     onCollectChange (value) {
       this.loadImage(value)
+    },
+    onUploadSuccess () {
+      // 上传成功,关闭对话框
+      this.dialogUploadVisible = false
+      // 更新素材表
+      this.loadImage(false)
     }
   }
 }
