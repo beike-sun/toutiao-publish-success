@@ -9,11 +9,15 @@
         </el-breadcrumb>
         <!-- /面包屑路径导航 -->
       </div>
-      <el-form ref="form" :model="artical" label-width="80px">
-        <el-form-item label="标题">
+      <el-form  :model="artical"
+      :rules="formRules"
+       label-width="80px"
+       ref="publish-form"
+       >
+        <el-form-item label="标题" prop="title">
     <el-input v-model="artical.title"></el-input>
   </el-form-item>
-        <el-form-item label="内容">
+        <el-form-item label="内容" prop="content">
           <!-- <el-input type="textarea" v-model="artical.content"></el-input> -->
           <el-tiptap
           v-model="artical.content"
@@ -30,7 +34,7 @@
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="频道">
+        <el-form-item label="频道" prop="channel_id">
           <el-select v-model="artical.channel_id" placeholder="请选择">
             <el-option
              :label = "channel.name"
@@ -96,6 +100,30 @@ export default {
         channel_id: ''
       },
       channels: [],
+      formRules: {
+        title: [
+          { required: true, message: '请输入文章标题', trigger: 'blur' },
+          { min: 5, max: 30, message: '长度在 5 到 30 个字符', trigger: 'blur' }
+        ],
+        content: [
+          // 自定义内容验证规则
+          {
+            validator (rule, value, callback) {
+              if (value === '<p></p>') {
+                // 验证失败
+                callback(new Error('请输入文章内容'))
+              } else {
+                // 验证成功
+                callback()
+              }
+            }
+          },
+          { required: true, message: '请输入文章标题', trigger: 'blur' }
+        ],
+        channel_id: [
+          { required: true, message: '请选择频道' }
+        ]
+      },
       extensions: [
         new Doc(),
         new Text(),
@@ -138,23 +166,30 @@ export default {
   },
   methods: {
     onPublish (draft = false) {
-      const connentId = this.$route.query.id
-      if (connentId) {
-        updataContent(connentId, this.artical, draft).then(res => {
-          this.$message({
-            message: `${draft ? '存入草稿' : '发表文章'}成功`,
-            type: 'success'
+      this.$refs['publish-form'].validate((valid) => {
+        // 如果验证失败
+        if (!valid) {
+          return
+        }
+        // 如果验证成功，提交表单
+        const connentId = this.$route.query.id
+        if (connentId) {
+          updataContent(connentId, this.artical, draft).then(res => {
+            this.$message({
+              message: `${draft ? '存入草稿' : '发表文章'}成功`,
+              type: 'success'
+            })
+            this.$router.push('/connent')
           })
-          this.$router.push('/connent')
-        })
-      } else {
-        addPublishContent(this.artical, draft).then(res => {
-          this.$message({
-            message: `${draft ? '存入草稿' : '发表文章'}成功`,
-            type: 'success'
+        } else {
+          addPublishContent(this.artical, draft).then(res => {
+            this.$message({
+              message: `${draft ? '存入草稿' : '发表文章'}成功`,
+              type: 'success'
+            })
           })
-        })
-      }
+        }
+      })
     },
     getConnentChannels () {
       ConnentChannels().then(res => {
