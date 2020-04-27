@@ -14,7 +14,13 @@
     <el-input v-model="artical.title"></el-input>
   </el-form-item>
         <el-form-item label="内容">
-          <el-input type="textarea" v-model="artical.content"></el-input>
+          <!-- <el-input type="textarea" v-model="artical.content"></el-input> -->
+          <el-tiptap
+          v-model="artical.content"
+           :extensions="extensions"
+           height="351"
+           placeholder="亲，请在这里输入要发布的内容哦"
+           ></el-tiptap>
         </el-form-item>
         <el-form-item label="封面">
           <el-radio-group v-model="artical.cover.type">
@@ -44,9 +50,39 @@
 </template>
 
 <script>
-import { ConnentChannels, addPublishContent, getEditContent, updataContent } from '@/api/connent.js'
+import {
+  // 需要的 extensions
+  ElementTiptap,
+  Doc,
+  Text,
+  Paragraph,
+  Heading,
+  Bold,
+  Underline,
+  Italic,
+  Strike,
+  ListItem,
+  BulletList,
+  OrderedList,
+  Image,
+  TextColor,
+  Iframe,
+  FormatClear,
+  Fullscreen
+} from 'element-tiptap'
+// import element-tiptap 样式
+import 'element-tiptap/lib/index.css'
+import {
+  ConnentChannels,
+  addPublishContent,
+  getEditContent,
+  updataContent
+} from '@/api/connent.js'
 export default {
   name: 'PublishIndex',
+  components: {
+    'el-tiptap': ElementTiptap
+  },
   data () {
     return {
       artical: {
@@ -58,7 +94,25 @@ export default {
         },
         channel_id: ''
       },
-      channels: []
+      channels: [],
+      extensions: [
+        new Doc(),
+        new Text(),
+        new Paragraph(),
+        new Heading({ level: 5 }),
+        new Bold({ bubble: true }), // 在气泡菜单中渲染菜单按钮
+        new Underline(),
+        new Italic(),
+        new Strike(),
+        new ListItem(),
+        new BulletList(),
+        new OrderedList(),
+        new Image(),
+        new TextColor(),
+        new Iframe(),
+        new FormatClear(),
+        new Fullscreen()
+      ]
     }
   },
   created () {
