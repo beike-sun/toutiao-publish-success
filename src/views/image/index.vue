@@ -7,13 +7,16 @@
   <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
   <el-breadcrumb-item>素材管理</el-breadcrumb-item>
 </el-breadcrumb>
-    <el-button style="float: right; padding: 3px 0" type="text">添加素材</el-button>
   </div>
-   <div style="padding-bottom: 20px;">
+   <div class="img-head">
         <el-radio-group v-model="collect" size="mini" @change="onCollectChange">
           <el-radio-button :label="false">全部</el-radio-button>
           <el-radio-button :label="true">收藏</el-radio-button>
         </el-radio-group>
+         <el-button
+          size="mini"
+          type="success"
+          >上传素材</el-button>
       </div>
  <!-- 素材列表 -->
  <el-row :gutter="20">
@@ -66,4 +69,9 @@ export default {
 </script>
 
 <style>
+.img-head{
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between
+}
 </style>
