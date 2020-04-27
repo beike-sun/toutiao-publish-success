@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { uploadImage } from '@/api/image.js'
 import {
   // 需要的 extensions
   ElementTiptap,
@@ -107,7 +108,20 @@ export default {
         new ListItem(),
         new BulletList(),
         new OrderedList(),
-        new Image(),
+        new Image({
+        // 默认会把图片生成.base64，字符串和内容存储在一起。用户体验不好，需要自定义图片上传
+          uploadRequest (file) {
+            // 如果接口要求 Content-Type是multipary/form-data,则请求体必须使用FormData
+            // 由于axios本身就是返回的promise对象，所以第一个return是返回promise对象
+          // 第二个return表示返回最后的结果
+            const fd = new FormData()
+            fd.append('image', file)
+            return uploadImage(fd).then(res => {
+              return res.data.data.url
+            })
+          }
+        }
+        ),
         new TextColor(),
         new Iframe(),
         new FormatClear(),
