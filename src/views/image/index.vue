@@ -10,9 +10,9 @@
     <el-button style="float: right; padding: 3px 0" type="text">添加素材</el-button>
   </div>
    <div style="padding-bottom: 20px;">
-        <el-radio-group v-model="radio1" size="mini">
-          <el-radio-button label="全部"></el-radio-button>
-          <el-radio-button label="收藏"></el-radio-button>
+        <el-radio-group v-model="collect" size="mini" @change="onCollectChange">
+          <el-radio-button :label="false">全部</el-radio-button>
+          <el-radio-button :label="true">收藏</el-radio-button>
         </el-radio-group>
       </div>
  <!-- 素材列表 -->
@@ -42,18 +42,24 @@ export default {
   name: 'imageIndex',
   data () {
     return {
-      radio1: '全部',
-      images: []
+      images: [],
+      // 默认查询全部素材
+      collect: false
     }
   },
   created () {
-    this.loadImage()
+    this.loadImage(false)
   },
   methods: {
-    loadImage () {
-      getImages().then(res => {
+    loadImage (collect = false) {
+      getImages({
+        collect
+      }).then(res => {
         this.images = res.data.data.results
       })
+    },
+    onCollectChange (value) {
+      this.loadImage(value)
     }
   }
 }
