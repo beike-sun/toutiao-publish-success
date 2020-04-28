@@ -6,6 +6,7 @@ import Layout from '@/views/layoutSyS/layout.vue'
 import Connent from '@/views/connent/'
 import Publish from '@/views/pubLish'
 import Image from '@/views/image'
+import Comment from '@/views/comment'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
         path: '/image',
         name: 'image',
         component: Image
+      },
+      {
+        path: '/comment',
+        name: 'comment',
+        component: Comment
       }
     ]
   }

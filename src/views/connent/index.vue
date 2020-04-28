@@ -92,7 +92,7 @@ v-loading = "loading"
         label="状态"
         width="270">
         <template slot-scope="scope">
-          <el-tag :type="contentStatus[scope.row.status].type">{{ contentStatus[scope.row.status].text }}</el-tag>
+          <el-tag :type="connentStatus[scope.row.status].type">{{ connentStatus[scope.row.status].text }}</el-tag>
           <!-- <el-tag  type="danger" v-if="scope.row.status === 1">待审核</el-tag>
           <el-tag type="success" v-if="scope.row.status === 2">审核通过</el-tag>
           <el-tag type="danger" v-if="scope.row.status === 3">审核失败</el-tag>
@@ -119,7 +119,7 @@ v-loading = "loading"
           type="danger"
           circle
           icon="el-icon-delete"
-          @click="onDeleteContent(scope.row.id)"
+          @click="onDeleteConnent(scope.row.id)"
           ></el-button>
       </template>
       </el-table-column>
@@ -143,7 +143,7 @@ v-loading = "loading"
 </template>
 
 <script>
-import { connent, ConnentChannels, deleteContent } from '@/api/connent.js'
+import { connent, ConnentChannels, deleteConnent } from '@/api/connent.js'
 export default {
   name: 'ConnentIndex',
   data () {
@@ -185,7 +185,7 @@ export default {
         }
       ],
       connentList: [],
-      contentStatus: [
+      connentStatus: [
         {
           text: '草稿', type: 'info', status: 0
         },
@@ -242,15 +242,15 @@ export default {
       this.getConnent(page)
       // console.log(page)
     },
-    onDeleteContent (deleteContentId) {
-      console.log(deleteContentId.toString())
+    onDeleteConnent (deleteConnentId) {
+      console.log(deleteConnentId.toString())
       this.$confirm('确认删除吗？', '删除提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         // 确认执行这里
-        deleteContent(deleteContentId.toString()).then(res => {
+        deleteConnent(deleteConnentId.toString()).then(res => {
           console.log(res)
           // this.getConnent(this.page)
         })

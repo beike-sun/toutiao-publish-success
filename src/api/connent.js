@@ -15,14 +15,14 @@ export const ConnentChannels = () => {
   })
 }
 // 删除文章的请求
-export const deleteContent = (contentId) => {
+export const deleteConnent = (connentId) => {
   return request({
     method: 'DELETE',
-    url: `/mp/v1_0/articles/${contentId}`
+    url: `/mp/v1_0/articles/${connentId}`
   })
 }
 // 发表文章的请求
-export const addPublishContent = (data, draft = false) => {
+export const addPublishConnent = (data, draft = false) => {
   return request({
     method: 'POST',
     url: '/mp/v1_0/articles',
@@ -33,17 +33,17 @@ export const addPublishContent = (data, draft = false) => {
   })
 }
 // 获取编辑文章的请求
-export const getEditContent = (connentId) => {
+export const getEditConnent = (connentId) => {
   return request({
     method: 'GET',
     url: `/mp/v1_0/articles/${connentId}`
   })
 }
 // 更新文章内容的请求
-export const updataContent = (contentId, data, draft) => {
+export const updataConnent = (connentId, data, draft) => {
   return request({
     method: 'PUT',
-    url: `/mp/v1_0/articles/${contentId}`,
+    url: `/mp/v1_0/articles/${connentId}`,
     params: {
       draft
     },
