@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column
         prop="address"
-        label="状态">
+        label="评论状态">
         <template slot-scope="scope">
             {{scope.row.comment_status ? '正常' : '关闭'}}
         </template>
@@ -42,7 +42,9 @@
            <el-switch
             v-model="scope.row.comment_status"
             active-color="#13ce66"
-            inactive-color="#ff4949">
+            inactive-color="#ff4949"
+            @change="onStatusChange(scope.row)"
+            >
             </el-switch>
         </template>
       </el-table-column>
@@ -63,7 +65,10 @@
 </template>
 
 <script>
-import { connent } from '@/api/connent'
+import {
+  connent,
+  updataCommentStatus
+} from '@/api/connent'
 export default {
   name: 'CommentIndex',
   data () {
@@ -103,6 +108,11 @@ export default {
         response_type: 'comment'
       }).then(res => {
         this.articals = res.data.data.results
+      })
+    },
+    onStatusChange (articals) {
+      updataCommentStatus(articals.id.toString(), articals.comment_status).then(res => {
+        console.log(res)
       })
     }
   }

@@ -50,3 +50,16 @@ export const updataConnent = (connentId, data, draft) => {
     data
   })
 }
+// 修改文章评论状态的请求
+export const updataCommentStatus = (articleId, allowComment) => {
+  return request({
+    method: 'PUT',
+    url: '/mp/v1_0/comments/status',
+    params: {
+      article_id: articleId
+    },
+    data: {
+      allow_comment: allowComment
+    }
+  })
+}
