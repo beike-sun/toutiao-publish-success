@@ -1,5 +1,5 @@
 import request from '@/utlis/request.js'
-// 获取筛选内容的请求
+// 获取(筛选)文章内容的请求
 export const connent = (params) => {
   return request({
     method: 'get',
