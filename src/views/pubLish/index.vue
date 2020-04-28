@@ -22,7 +22,7 @@
           <el-tiptap
           v-model="artical.content"
            :extensions="extensions"
-           height="351"
+           height="300"
            placeholder="亲，请在这里输入要发布的内容哦"
            ></el-tiptap>
         </el-form-item>
