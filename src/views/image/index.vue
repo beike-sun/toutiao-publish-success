@@ -49,6 +49,8 @@
       icon="el-icon-delete"
       circle
       size="mini"
+      @click="onDeleteImg(img)"
+      :loading="img.loading"
       >
       </el-button>
 
@@ -100,7 +102,8 @@
 <script>
 import {
   getImages,
-  collectImage
+  collectImage,
+  deleteImage
 } from '@/api/image'
 export default {
   name: 'imageIndex',
@@ -166,6 +169,14 @@ export default {
       // // 没收藏，添加收藏
       //  collectImage(img.id, true)
       // }
+    },
+    onDeleteImg (img) {
+      img.loading = true
+      deleteImage(img.id).then(res => {
+        // 删除成功重新加载素材页面
+        this.loadImage(this.page)
+        img.loading = false
+      })
     }
   }
 }
