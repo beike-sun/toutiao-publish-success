@@ -43,6 +43,7 @@
             v-model="scope.row.comment_status"
             active-color="#13ce66"
             inactive-color="#ff4949"
+            :disabled="scope.row.statusDisabled"
             @change="onStatusChange(scope.row)"
             >
             </el-switch>
@@ -107,12 +108,21 @@ export default {
       connent({
         response_type: 'comment'
       }).then(res => {
-        this.articals = res.data.data.results
+        const results = res.data.data.results
+        results.forEach(articals => {
+          articals.statusDisabled = false
+        })
+        this.articals = results
       })
     },
     onStatusChange (articals) {
+      articals.statusDisabled = true
       updataCommentStatus(articals.id.toString(), articals.comment_status).then(res => {
-        console.log(res)
+        articals.statusDisabled = false
+        this.$message({
+          type: 'success',
+          message: articals.comment_status ? '开启成功' : '关闭成功'
+        })
       })
     }
   }
