@@ -39,10 +39,28 @@
             fit="cover"
             :src="user.photo"
           ></el-avatar>
-          <p>点击修改头像</p>
+          <p @click="$refs.file.click()">点击修改头像</p>
+          <input
+           type="file"
+           ref="file"
+           hidden
+           @change="onFileChange"
+           >
         </el-col>
       </el-row>
     </el-card>
+    <!-- 弹出层 -->
+    <el-dialog
+        title="修改头像"
+        :visible.sync="dialogVisible"
+        :append-to-body=true
+        >
+       <img :src="previewImage" width="50%" alt="">
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+        </el-dialog>
   </div>
 </template>
 
@@ -69,7 +87,10 @@ export default {
         mobile: '',
         email: '',
         photo: ''
-      }
+      },
+      dialogVisible: false,
+      // 预览图片
+      previewImage: ''
     }
   },
   created () {
@@ -83,6 +104,16 @@ export default {
       getUserProfile().then(res => {
         this.user = res.data.data
       })
+    },
+    onFileChange () {
+    // 处理图片预览
+      const file = this.$refs.file
+      const blobData = window.URL.createObjectURL(file.files[0])
+      this.previewImage = blobData
+      // 当文件改变的时候触发弹层框
+      this.dialogVisible = true
+      // 解决相同的文件不触发change事件
+      this.$refs.file.value = ''
     }
   }
 }
