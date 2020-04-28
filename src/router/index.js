@@ -7,6 +7,7 @@ import Connent from '@/views/connent/'
 import Publish from '@/views/pubLish'
 import Image from '@/views/image'
 import Comment from '@/views/comment'
+import PersonSet from '@/views/personSetting'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
         path: '/comment',
         name: 'comment',
         component: Comment
+      },
+      {
+        path: '/setting',
+        name: 'setting',
+        component: PersonSet
       }
     ]
   }
