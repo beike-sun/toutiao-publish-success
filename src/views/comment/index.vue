@@ -52,14 +52,17 @@
     </el-table>
   </template>
   <!-- 分页 -->
+    <!--current-page 控制激活时高亮的页码 -->
+    <!--page-sizes可选的用来控制每页的条数 -->
+    <!--page-size 真正的控制每页条数 -->
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="1"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page.sync= page
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size.sync="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400">
+      :total="totalCount">
     </el-pagination>
     </el-card>
   </div>
@@ -91,28 +94,36 @@ export default {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }],
-      articals: []
+      articals: [],
+      totalCount: 0,
+      pageSize: 10,
+      page: 1
     }
   },
   created () {
     this.loadArticals()
   },
   methods: {
-    handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+    handleSizeChange () {
+      this.loadArticals(1)
     },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+    handleCurrentChange (page) {
+      this.loadArticals(page)
     },
-    loadArticals () {
+    loadArticals (page = 1) {
+      this.page = page
       connent({
-        response_type: 'comment'
+        response_type: 'comment',
+        page,
+        per_page: this.pageSize
       }).then(res => {
+        // console.log(res)
         const results = res.data.data.results
         results.forEach(articals => {
           articals.statusDisabled = false
         })
         this.articals = results
+        this.totalCount = res.data.data.total_count
       })
     },
     onStatusChange (articals) {
