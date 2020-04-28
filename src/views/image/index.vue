@@ -27,12 +27,22 @@
     :md="6"
     :lg="4"
     v-for="(img, index) in images"
+    class="image-item"
     :key="index">
     <el-image
       style="height: 100px"
       :src="img.url"
       fit="cover">
     </el-image>
+    <div class="image-action" >
+     <i :class="{
+       'el-icon-star-off': !img.is_collected,
+       'el-icon-star-on': img.is_collected
+       }"
+       @click="onCollected(img)"
+       ></i>
+     <i class="el-icon-delete"></i>
+    </div>
   </el-col>
 </el-row>
 <!-- 分页 -->
@@ -71,7 +81,10 @@
 </template>
 
 <script>
-import { getImages } from '@/api/image'
+import {
+  getImages,
+  collectImage
+} from '@/api/image'
 export default {
   name: 'imageIndex',
   data () {
@@ -84,7 +97,7 @@ export default {
       uploadHeaders: {
         Authorization: `Bearer ${user.token}`
       },
-      pageSize: 5,
+      pageSize: 10,
       totalCount: 0,
       // 当前页码
       page: 1
@@ -117,6 +130,18 @@ export default {
     },
     onPageChange (page) {
       this.loadImage(page)
+    },
+    onCollected (img) {
+      collectImage(img.id, !img.is_collected).then(res => {
+        img.is_collected = !img.is_collected
+      })
+      // if(img.isCollect){
+      //   // 收藏,取消
+      //   collectImage(img.id, false)
+      // } else{
+      // // 没收藏，添加收藏
+      //  collectImage(img.id, true)
+      // }
     }
   }
 }
@@ -127,5 +152,21 @@ export default {
     padding-bottom: 20px;
     display: flex;
     justify-content: space-between
+}
+.image-item{
+  position: relative;
+}
+.image-action{
+  height: 40px;
+  background: rgba(204, 204, 204, .6);
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 20px;
+  color: aliceblue;
 }
 </style>
