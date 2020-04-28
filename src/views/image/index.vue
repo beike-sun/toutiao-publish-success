@@ -41,6 +41,7 @@
   layout="prev, pager, next"
   :total="totalCount"
   :page-size="pageSize"
+  :current-page.sync="page"
   @current-change="onPageChange"
   >
 </el-pagination>
@@ -83,8 +84,10 @@ export default {
       uploadHeaders: {
         Authorization: `Bearer ${user.token}`
       },
-      pageSize: 10,
-      totalCount: 0
+      pageSize: 5,
+      totalCount: 0,
+      // 当前页码
+      page: 1
     }
   },
   created () {
@@ -92,6 +95,8 @@ export default {
   },
   methods: {
     loadImage (page, pageSize) {
+      // 重置高亮页码
+      this.page = page
       getImages({
         collect: this.collect,
         page,
@@ -108,7 +113,7 @@ export default {
       // 上传成功,关闭对话框
       this.dialogUploadVisible = false
       // 更新素材表
-      this.loadImage(false)
+      this.loadImage(this.page)
     },
     onPageChange (page) {
       this.loadImage(page)
