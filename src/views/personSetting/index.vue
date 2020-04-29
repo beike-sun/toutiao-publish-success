@@ -11,27 +11,42 @@
       </div>
       <el-row>
         <el-col :span="15">
-          <el-form ref="form" :model="user" label-width="90px" class="el-form-item">
+          <el-form
+           ref="form"
+            :model="user"
+            :rules="rules"
+            label-width="90px"
+            class="el-form-item">
             <el-form-item label="编号">
               {{user.id}}
             </el-form-item>
             <el-form-item label="手机">
               {{user.mobile}}
             </el-form-item>
-            <el-form-item label="媒体名称:">
+            <el-form-item
+             label="媒体名称:"
+             prop="name"
+             >
               <el-input v-model="user.name"></el-input>
             </el-form-item>
-            <el-form-item label="媒体介绍:">
-              <el-input v-model="user.intro"></el-input>
+            <el-form-item
+             label="媒体介绍:"
+             prop="intro"
+             >
+    <el-input type="textarea" v-model="user.intro"></el-input>
             </el-form-item>
-            <el-form-item label="邮箱:">
+            <el-form-item
+             label="邮箱:"
+             prop="email"
+             >
               <el-input v-model="user.email"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button
               type="primary"
+              class="save-but"
               @click = "updataUser"
-              >保存</el-button>
+              >保存设置</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -104,7 +119,20 @@ export default {
       // 预览图片
       previewImage: '',
       cropper: null,
-      onUpdataLoad: false
+      onUpdataLoad: false,
+      rules: {
+        name: [
+          { required: true, message: '请输入媒体名称', trigger: 'change' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'change' }
+        ],
+        intro: [
+          { required: true, message: '请输入媒体名称', trigger: 'change' }
+        ],
+        email: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { pattern: /(\w+)@(\w+)\.(\w+)(\.\w+)?/, message: '请输入正确的邮箱', trigger: 'change' }
+        ]
+      }
     }
   },
   created () {
@@ -181,5 +209,8 @@ export default {
     max-width: 100%;
     height: 200px;
   }
+}
+.save-but{
+  margin-top: 20px;
 }
 </style>
