@@ -54,8 +54,17 @@
         title="修改头像"
         :visible.sync="dialogVisible"
         :append-to-body=true
+        @opened="onDialogOpened"
+        @closed="onDialogClosed"
         >
-       <img :src="previewImage" width="50%" alt="">
+        <div class="preview-image-wrap">
+       <img
+         :src="previewImage"
+         alt=""
+         class="preview-image"
+         ref="preview-image"
+         >
+        </div>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
             <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -63,9 +72,10 @@
         </el-dialog>
   </div>
 </template>
-
 <script>
 import { getUserProfile } from '@/api/user.js'
+import 'cropperjs/dist/cropper.css'
+import Cropper from 'cropperjs'
 export default {
   name: 'PersonSet',
   data () {
@@ -90,7 +100,8 @@ export default {
       },
       dialogVisible: false,
       // 预览图片
-      previewImage: ''
+      previewImage: '',
+      cropper: null
     }
   },
   created () {
@@ -114,11 +125,32 @@ export default {
       this.dialogVisible = true
       // 解决相同的文件不触发change事件
       this.$refs.file.value = ''
+    },
+    onDialogOpened () {
+      // 获取图片dom节点
+      const image = this.$refs['preview-image']
+      // 初始化裁切器.初始化后，如果预览图片发生变化，裁切器默认不会更新，需要销毁，重新初始化
+      this.cropper = new Cropper(image, {
+        viewMode: 1,
+        dragMode: 'none',
+        aspectRatio: 1,
+        cropBoxResizable: false
+      })
+    },
+    // 销毁裁切器
+    onDialogClosed () {
+      this.cropper.destroy()
     }
   }
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+.preview-image-wrap{
+  .preview-image{
+    display: block;
+    max-width: 100%;
+    height: 200px;
+  }
+}
 </style>
