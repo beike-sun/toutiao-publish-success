@@ -11,7 +11,7 @@
       </div>
       <el-row>
         <el-col :span="15">
-          <el-form ref="form" :model="form" label-width="90px" class="el-form-item">
+          <el-form ref="form" :model="user" label-width="90px" class="el-form-item">
             <el-form-item label="编号">
               {{user.id}}
             </el-form-item>
@@ -28,7 +28,10 @@
               <el-input v-model="user.email"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit">保存</el-button>
+              <el-button
+              type="primary"
+              @click = "updataUser"
+              >保存</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -79,7 +82,8 @@
 <script>
 import {
   getUserProfile,
-  updataUserPhoto
+  updataUserPhoto,
+  updataUserProfile
 } from '@/api/user.js'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
@@ -87,16 +91,6 @@ export default {
   name: 'PersonSet',
   data () {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
       user: {
         id: null,
         name: '',
@@ -116,9 +110,6 @@ export default {
     this.loadUser()
   },
   methods: {
-    onSubmit () {
-      console.log('submit!')
-    },
     loadUser () {
       getUserProfile().then(res => {
         this.user = res.data.data
@@ -165,6 +156,15 @@ export default {
           this.user.photo = window.URL.createObjectURL(file)
           this.onUpdataLoad = false
         })
+      })
+    },
+    updataUser () {
+      updataUserProfile({
+        name: this.user.name,
+        intro: this.user.intro,
+        email: this.user.email
+      }).then(res => {
+        console.log(res)
       })
     }
   }

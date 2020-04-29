@@ -26,3 +26,11 @@ export const updataUserPhoto = data => {
     data
   })
 }
+// 编辑用户资料
+export const updataUserProfile = data => {
+  return request({
+    method: 'PATCH',
+    url: '/mp/v1_0/user/profile',
+    data
+  })
+}
