@@ -87,6 +87,7 @@ import {
 } from '@/api/user.js'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
+import globalBus from '@/utlis/global-bus'
 export default {
   name: 'PersonSet',
   data () {
@@ -155,6 +156,7 @@ export default {
           // 采用本地裁切好的
           this.user.photo = window.URL.createObjectURL(file)
           this.onUpdataLoad = false
+          globalBus.$emit('updata-user', this.user)
         })
       })
     },
@@ -164,6 +166,7 @@ export default {
         intro: this.user.intro,
         email: this.user.email
       }).then(res => {
+        globalBus.$emit('updata-user', this.user)
         console.log(res)
       })
     }

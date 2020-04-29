@@ -39,6 +39,7 @@
 <script>
 import MyAside from '@/views/layoutSyS/components/MyAside.vue'
 import { getUserProfile } from '@/api/user'
+import globalBus from '@/utlis/global-bus'
 export default {
   name: 'LayoutIndex',
   components: { MyAside },
@@ -50,6 +51,11 @@ export default {
   },
   created () {
     this.loadUserProfile()
+    // data 接收发布组件传过来的数据
+    globalBus.$on('updata-user', data => {
+      this.user.name = data.name
+      this.user.photo = data.photo
+    })
   },
   methods: {
     loadUserProfile () {
