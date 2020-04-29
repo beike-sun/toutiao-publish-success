@@ -70,6 +70,7 @@
             <el-button
              type="primary"
               @click="onUpdataPhoto"
+              :loading="onUpdataLoad"
               >确 定</el-button>
         </span>
         </el-dialog>
@@ -107,7 +108,8 @@ export default {
       dialogVisible: false,
       // 预览图片
       previewImage: '',
-      cropper: null
+      cropper: null,
+      onUpdataLoad: false
     }
   },
   created () {
@@ -149,6 +151,7 @@ export default {
     },
     // 点击弹层框的确定触发的事件处理
     onUpdataPhoto () {
+      this.onUpdataLoad = true
       // 获取裁切的图片，提交给接口，关闭弹出框，更新视图显示
       this.cropper.getCroppedCanvas().toBlob(file => {
         const fd = new FormData()
@@ -160,6 +163,7 @@ export default {
           // this.user.photo = res.data.data.photo
           // 采用本地裁切好的
           this.user.photo = window.URL.createObjectURL(file)
+          this.onUpdataLoad = false
         })
       })
     }
