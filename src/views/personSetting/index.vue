@@ -67,13 +67,19 @@
         </div>
         <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            <el-button
+             type="primary"
+              @click="onUpdataPhoto"
+              >确 定</el-button>
         </span>
         </el-dialog>
   </div>
 </template>
 <script>
-import { getUserProfile } from '@/api/user.js'
+import {
+  getUserProfile,
+  updataUserPhoto
+} from '@/api/user.js'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
 export default {
@@ -140,6 +146,22 @@ export default {
     // 销毁裁切器
     onDialogClosed () {
       this.cropper.destroy()
+    },
+    // 点击弹层框的确定触发的事件处理
+    onUpdataPhoto () {
+      // 获取裁切的图片，提交给接口，关闭弹出框，更新视图显示
+      this.cropper.getCroppedCanvas().toBlob(file => {
+        const fd = new FormData()
+        fd.append('photo', file)
+        updataUserPhoto(fd).then(res => {
+          // console.log(res)后台返回的数据
+          this.dialogVisible = false
+          // 使用后台返回的图片数据有点慢
+          // this.user.photo = res.data.data.photo
+          // 采用本地裁切好的
+          this.user.photo = window.URL.createObjectURL(file)
+        })
+      })
     }
   }
 }
