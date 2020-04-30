@@ -37,7 +37,8 @@
             <upload-cover
                 v-for="cover in artical.cover.type"
                 :key="cover"
-            >封面图片</upload-cover>
+            >
+            </upload-cover>
           </template>
         </el-form-item>
         <el-form-item label="频道" prop="channel_id">

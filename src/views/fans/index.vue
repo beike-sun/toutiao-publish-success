@@ -46,6 +46,9 @@
       <div ref="main" style="width: 600px;height:400px;"></div>
           <bar-demo/>
     </el-tab-pane>
+    <el-tab-pane label="地图" name="third">
+      <map-demo/>
+    </el-tab-pane>
   </el-tabs>
 </el-card>
   </div>
@@ -55,10 +58,12 @@
 import { getFansList } from '@/api/fans.js'
 import echarts from 'echarts'
 import barDemo from './components/bar-demo.vue'
+import mapDemo from './components/map-demo'
 export default {
   name: 'FansIndex',
   components: {
-    barDemo
+    barDemo,
+    mapDemo
   },
   data () {
     return {
