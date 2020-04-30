@@ -33,6 +33,12 @@
             <el-radio :label="0">无图</el-radio>
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
+          <template v-if="artical.cover.type > 0">
+            <upload-cover
+                v-for="cover in artical.cover.type"
+                :key="cover"
+            >封面图片</upload-cover>
+          </template>
         </el-form-item>
         <el-form-item label="频道" prop="channel_id">
           <el-select v-model="artical.channel_id" placeholder="请选择">
@@ -83,10 +89,12 @@ import {
   getEditContent,
   updataContent
 } from '@/api/connent.js'
+import uploadCover from './components/upload-cover'
 export default {
   name: 'PublishIndex',
   components: {
-    'el-tiptap': ElementTiptap
+    'el-tiptap': ElementTiptap,
+    uploadCover
   },
   data () {
     return {

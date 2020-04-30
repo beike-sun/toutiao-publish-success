@@ -10,7 +10,7 @@
     </div>
     <!-- 卡片化 -->
   <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-    <el-tab-pane label="粉丝评论" name="first">
+    <el-tab-pane label="粉丝列表" name="first">
       <el-row class="el-main">
   <el-col
    :span="4"
@@ -42,7 +42,10 @@
   >
 </el-pagination>
     </el-tab-pane>
-    <el-tab-pane label="粉丝画像" name="second">2</el-tab-pane>
+    <el-tab-pane label="粉丝画像" name="second">
+      <div ref="main" style="width: 600px;height:400px;"></div>
+          <bar-demo/>
+    </el-tab-pane>
   </el-tabs>
 </el-card>
   </div>
@@ -50,8 +53,13 @@
 
 <script>
 import { getFansList } from '@/api/fans.js'
+import echarts from 'echarts'
+import barDemo from './components/bar-demo.vue'
 export default {
   name: 'FansIndex',
+  components: {
+    barDemo
+  },
   data () {
     return {
       activeName: 'first',
@@ -60,6 +68,50 @@ export default {
       totalCount: 0,
       page: 1
     }
+  },
+  mounted () {
+    // 基于准备好的dom，初始化echarts实例
+    const myChart = echarts.init(this.$refs.main)
+    // console.log(myChart)
+    var option = {
+      color: ['#3398DB'],
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+          type: 'shadow'// 默认为直线，可选为：'line' | 'shadow'
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          axisTick: {
+            alignWithLabel: true
+          }
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
+      series: [
+        {
+          name: '直接访问',
+          type: 'bar',
+          barWidth: '60%',
+          data: [10, 52, 200, 334, 390, 330, 220]
+        }
+      ]
+    }
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option)
   },
   created () {
     this.loadFansList(1)
@@ -89,6 +141,6 @@ export default {
 <style>
 .el-main{
   line-height: 100%;
-  text-align: center;
+  /* text-align: center; */
 }
 </style>
