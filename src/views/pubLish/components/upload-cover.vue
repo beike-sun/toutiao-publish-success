@@ -15,10 +15,9 @@
         append-to-body=true
         >
   <el-tabs  type="card" >
-    <el-tab-pane label="素材库" name="first"></el-tab-pane>
-    <el-tab-pane label="上传图片" name="second"></el-tab-pane>
-  </el-tabs>
-  <input
+    <el-tab-pane label="素材库" name="first">111</el-tab-pane>
+    <el-tab-pane label="上传图片" name="second">
+       <input
    type="file"
    ref="file"
    hidden
@@ -34,6 +33,8 @@
      ref="preview-image"
     >
   </div>
+    </el-tab-pane>
+  </el-tabs>
     <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
