@@ -9,6 +9,7 @@
           size="mini"
           type="success"
           @click="dialogUploadVisible=true"
+          v-if="isShowAdd"
           >上传素材</el-button>
       </div>
  <!-- 素材列表 -->
@@ -20,13 +21,23 @@
     :lg="4"
     v-for="(img, index) in images"
     class="image-item"
-    :key="index">
+    :key="index"
+    @click.native="selected = index"
+    >
     <el-image
       style="height: 100px"
+      class="el-image"
       :src="img.url"
       fit="cover">
     </el-image>
-    <div class="image-action" >
+     <div
+      class="selected"
+      v-if="selected===index"
+      ></div>
+    <div
+     class="image-action"
+     v-if="isShowAction"
+      >
      <el-button
      type="warning"
      size="mini"
@@ -45,7 +56,6 @@
       :loading="img.loading"
       >
       </el-button>
-
      <!-- <i :class="{
        'el-icon-star-off': !img.is_collected,
        'el-icon-star-on': img.is_collected
@@ -110,7 +120,19 @@ export default {
       pageSize: 10,
       totalCount: 0,
       // 当前页码
-      page: 1
+      page: 1,
+      // 选中的索引
+      selected: null
+    }
+  },
+  props:{
+    isShowAdd: {
+      type: Boolean,
+      default: true
+    },
+    isShowAction:{
+      type: Boolean,
+      default: true
     }
   },
   created () {
@@ -193,5 +215,21 @@ export default {
   align-items: center;
   font-size: 20px;
   color: aliceblue;
+}
+.selected{
+  background: url('./selected.png');
+ position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    opacity: .5;
+}
+.el-image{
+  position: relative
 }
 </style>

@@ -16,7 +16,12 @@
         append-to-body=true
         >
   <el-tabs  type="card" v-model="activeName">
-    <el-tab-pane label="素材库" name="first">111</el-tab-pane>
+    <el-tab-pane label="素材库" name="first">
+      <image-list
+      :is-show-add="false"
+      :is-show-action="false"
+      ></image-list>
+    </el-tab-pane>
     <el-tab-pane label="上传图片" name="second">
        <input
           type="file"
@@ -50,6 +55,7 @@
 
 <script>
 import { uploadImage } from '@/api/image'
+import ImageList from '@/views/image/components/image-list.vue'
 export default {
   name: 'UploadCover',
   data () {
@@ -57,6 +63,9 @@ export default {
       dialogVisible: false,
       activeName: 'first'
     }
+  },
+  components:{
+    ImageList
   },
   // props: ['cover-image'],
   props: ['value'],

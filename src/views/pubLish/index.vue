@@ -113,7 +113,7 @@ export default {
         title: '',
         content: '',
         cover: {
-          type: 0,
+          type: 1,
           images: []
         },
         channel_id: ''

@@ -8,7 +8,7 @@
   <el-breadcrumb-item>素材管理</el-breadcrumb-item>
 </el-breadcrumb>
   </div>
-   <div class="img-head">
+   <!-- <div class="img-head">
         <el-radio-group v-model="collect" size="mini" @change="onCollectChange">
           <el-radio-button :label="false">全部</el-radio-button>
           <el-radio-button :label="true">收藏</el-radio-button>
@@ -18,7 +18,7 @@
           type="success"
           @click="dialogUploadVisible=true"
           >上传素材</el-button>
-      </div>
+      </div> -->
       <image-list></image-list>
       </el-card>
   </div>
