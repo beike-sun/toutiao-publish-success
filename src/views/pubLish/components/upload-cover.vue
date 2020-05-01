@@ -7,7 +7,7 @@
          <img
           class="cover-image"
           ref="cover-image"
-          :src="coverImage"
+          :src="value"
           >
       </div>
       <!-- 弹层框 -->
@@ -19,10 +19,10 @@
     <el-tab-pane label="素材库" name="first">111</el-tab-pane>
     <el-tab-pane label="上传图片" name="second">
        <input
-   type="file"
-   ref="file"
-   hidden
-   @change="onFileChange"
+          type="file"
+          ref="file"
+          hidden
+          @change="onFileChange"
    >
   <div
    class="upload-image"
@@ -51,14 +51,15 @@
 <script>
 import { uploadImage } from '@/api/image'
 export default {
-  name: 'UploadCoverIndex',
+  name: 'UploadCover',
   data () {
     return {
       dialogVisible: false,
       activeName: 'first'
     }
   },
-  props: ['cover-image'],
+  // props: ['cover-image'],
+  props: ['value'],
   methods: {
     onShowDialog () {
       this.dialogVisible = true
@@ -86,7 +87,7 @@ export default {
           this.$refs['cover-image'].src = res.data.data.url
           // 将图片的url地址传给父组件publishIndex的cover下的images
           // 父子组件之间的通信
-          this.$emit('update-cover', res.data.data.url)
+          this.$emit('input', res.data.data.url)
        })
     }
   }

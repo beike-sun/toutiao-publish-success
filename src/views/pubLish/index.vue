@@ -27,13 +27,13 @@
            ></el-tiptap>
         </el-form-item>
         <el-form-item label="封面">
-          <el-radio-group v-model="artical.cover.type">
+          <el-radio-group v-model="artical.cover.type" clearable>
             <el-radio :label="1">单图</el-radio>
             <el-radio :label="3">三图</el-radio>
             <el-radio :label="0">无图</el-radio>
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
-          <template v-if="artical.cover.type > 0">
+          <!-- <template v-if="artical.cover.type>0">
             <upload-cover
                 v-for="(cover, index) in artical.cover.type"
                 :key="cover"
@@ -41,6 +41,14 @@
                 @update-cover="onUpdateCover(index, $event)"
             >
             </upload-cover>
+          </template> -->
+           <template>
+            <upload-cover
+              v-for="(cover,index) in artical.cover.type"
+               :key="cover"
+               v-model="artical.cover.images[index]"
+              @update-cover="onUpdateCover(index, $event)"
+            />
           </template>
         </el-form-item>
         <el-form-item label="频道" prop="channel_id">
@@ -92,12 +100,12 @@ import {
   getEditConnent,
   updataConnent
 } from '@/api/connent.js'
-import uploadCover from './components/upload-cover'
+import UploadCover from './components/upload-cover.vue'
 export default {
   name: 'PublishIndex',
   components: {
     'el-tiptap': ElementTiptap,
-    uploadCover
+     UploadCover
   },
   data () {
     return {
