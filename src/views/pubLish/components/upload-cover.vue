@@ -7,6 +7,7 @@
          <img
           class="cover-image"
           ref="cover-image"
+          :src="coverImage"
           >
       </div>
       <!-- 弹层框 -->
@@ -27,6 +28,7 @@
    class="upload-image"
    @click="$refs.file.click()"
    >
+    <!-- 发布后，img显示空的，需要接收父组件传的数据 -->
     <img
      width="100%"
      height="100%"
@@ -56,6 +58,7 @@ export default {
       activeName: 'first'
     }
   },
+  props: ['cover-image'],
   methods: {
     onShowDialog () {
       this.dialogVisible = true
@@ -81,6 +84,9 @@ export default {
          this.dialogVisible = false
           // console.log(res)
           this.$refs['cover-image'].src = res.data.data.url
+          // 将图片的url地址传给父组件publishIndex的cover下的images
+          // 父子组件之间的通信
+          this.$emit('update-cover', res.data.data.url)
        })
     }
   }

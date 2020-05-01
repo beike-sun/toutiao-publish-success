@@ -35,8 +35,10 @@
           </el-radio-group>
           <template v-if="artical.cover.type > 0">
             <upload-cover
-                v-for="cover in artical.cover.type"
+                v-for="(cover, index) in artical.cover.type"
                 :key="cover"
+                :cover-image = "artical.cover.image[index]"
+                @update-cover="onUpdateCover(index, $event)"
             >
             </upload-cover>
           </template>
@@ -86,9 +88,9 @@ import {
 import 'element-tiptap/lib/index.css'
 import {
   ConnentChannels,
-  addPublishContent,
-  getEditContent,
-  updataContent
+  addPublishConnent,
+  getEditConnent,
+  updataConnent
 } from '@/api/connent.js'
 import uploadCover from './components/upload-cover'
 export default {
@@ -183,7 +185,7 @@ export default {
         // 如果验证成功，提交表单
         const connentId = this.$route.query.id
         if (connentId) {
-          updataContent(connentId, this.artical, draft).then(res => {
+          updataConnent(connentId, this.artical, draft).then(res => {
             this.$message({
               message: `${draft ? '存入草稿' : '发表文章'}成功`,
               type: 'success'
@@ -191,7 +193,7 @@ export default {
             this.$router.push('/connent')
           })
         } else {
-          addPublishContent(this.artical, draft).then(res => {
+          addPublishConnent(this.artical, draft).then(res => {
             this.$message({
               message: `${draft ? '存入草稿' : '发表文章'}成功`,
               type: 'success'
@@ -206,9 +208,14 @@ export default {
       })
     },
     editContent () {
-      getEditContent(this.$route.query.id).then(res => {
+      getEditConnent(this.$route.query.id).then(res => {
+        console.log(res)
         this.artical = res.data.data
       })
+    },
+    onUpdateCover (index,url) {
+      // console.log(url)
+      this.artical.cover.images[index] = url
     }
   }
 }
