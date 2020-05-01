@@ -5,8 +5,8 @@
        @click="onShowDialog"
        >
          <img
-          src="http://toutiao.meiduo.site/FkGRXd3ypLrvv7KJzFIgWKzFi70I"
           class="cover-image"
+          ref="cover-image"
           >
       </div>
       <!-- 弹层框 -->
@@ -14,7 +14,7 @@
         :visible.sync="dialogVisible"
         append-to-body=true
         >
-  <el-tabs  type="card" >
+  <el-tabs  type="card" v-model="activeName">
     <el-tab-pane label="素材库" name="first">111</el-tab-pane>
     <el-tab-pane label="上传图片" name="second">
        <input
@@ -37,18 +37,23 @@
   </el-tabs>
     <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    <el-button
+     type="primary"
+      @click.native="onCoverConfirm()"
+      >确 定</el-button>
   </span>
         </el-dialog>
   </div>
 </template>
 
 <script>
+import { uploadImage } from '@/api/image'
 export default {
   name: 'UploadCoverIndex',
   data () {
     return {
-      dialogVisible: false
+      dialogVisible: false,
+      activeName: 'first'
     }
   },
   methods: {
@@ -61,6 +66,22 @@ export default {
      const file = this.$refs.file.files[0]
      const blob = window.URL.createObjectURL(file)
      this.$refs['preview-image'].src = blob
+    },
+    onCoverConfirm () {
+      const file = this.$refs.file.files[0]
+      if (this.activeName === 'second') {
+        if (!this.$refs.file.files[0]) {
+          this.$message('请选择文件上传')
+          return
+        }
+      }
+      const fd = new FormData()
+      fd.append('image', file)
+       uploadImage(fd).then(res => {
+         this.dialogVisible = false
+          // console.log(res)
+          this.$refs['cover-image'].src = res.data.data.url
+       })
     }
   }
 }
