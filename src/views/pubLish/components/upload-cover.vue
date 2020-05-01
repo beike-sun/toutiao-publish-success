@@ -20,6 +20,7 @@
       <image-list
       :is-show-add="false"
       :is-show-action="false"
+      ref="image-list"
       ></image-list>
     </el-tab-pane>
     <el-tab-pane label="上传图片" name="second">
@@ -87,6 +88,18 @@ export default {
           this.$message('请选择文件上传')
           return
         }
+      } else if (this.activeName === 'first') {
+        // 获取选中封面图片 （由于这个时分装在子组件上的，所以通过父子组件通信从而获取到）
+        const imageList = this.$refs['image-list']
+        // 获取选中封面图片的索引
+        const selected = imageList.selected
+        if (selected === null) {
+          this.$message('请选择封面图片上传')
+          return
+        }
+        // 点击确定的时候，清除弹层框,将选中的封面图片上传个publish父组件中的封面
+        this.dialogVisible = false
+        this.$emit('input', imageList.images[selected].url)
       }
       const fd = new FormData()
       fd.append('image', file)

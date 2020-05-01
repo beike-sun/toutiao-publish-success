@@ -198,7 +198,6 @@ export default {
               message: `${draft ? '存入草稿' : '发表文章'}成功`,
               type: 'success'
             })
-            this.$router.push('/connent')
           })
         } else {
           addPublishConnent(this.artical, draft).then(res => {
@@ -208,6 +207,7 @@ export default {
             })
           })
         }
+        this.$router.push('/connent')
       })
     },
     getConnentChannels () {

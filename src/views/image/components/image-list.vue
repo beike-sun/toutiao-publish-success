@@ -189,6 +189,7 @@ export default {
         this.loadImage(this.page)
         img.loading = false
       })
+       this.$message('删除图片成功')
     }
   }
 }

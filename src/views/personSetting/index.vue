@@ -195,7 +195,8 @@ export default {
         email: this.user.email
       }).then(res => {
         globalBus.$emit('updata-user', this.user)
-        console.log(res)
+        // console.log(res)
+        this.$message('保存个人信息成功')
       })
     }
   }
