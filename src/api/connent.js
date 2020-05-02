@@ -15,7 +15,7 @@ export const ConnentChannels = () => {
   })
 }
 // 删除文章的请求
-export const deleteConnent = (connentId) => {
+export const deleteConnent = connentId => {
   return request({
     method: 'DELETE',
     url: `/mp/v1_0/articles/${connentId}`

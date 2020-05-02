@@ -11,36 +11,46 @@
     <!-- 卡片化 -->
   <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
     <el-tab-pane label="粉丝列表" name="first">
-      <el-row class="el-main">
+<!-- 利用栅格布局 -->
+      <el-row>
+        <!-- 遍历获取粉丝列表 -->
   <el-col
-   :span="4"
-    v-for="(fans, index) in fansList"
-   :key="index"
-   >
-   <el-image
-    style="height:100px"
-    fit=contain
+  :span="3"
+  class="grid-content"
+  v-for="(fans, index ) in fansList"
+  :key="index"
+  >
+  <el-avatar
+    :size="100"
+ >
+     <img
     :src="fans.photo"
-   >
-   </el-image>
-    <div
-     style="height: 20px"
-     :name="fans.name"
-     >
-     name = fans.name
-    </div>
-   </el-col>
+    >
+  </el-avatar>
+      <div
+      class="text"
+       >name</div>
+  </el-col>
 </el-row>
  <!-- 分页 -->
-  <el-pagination
+  <!-- <el-pagination
   background
   layout="prev, pager, next"
   :total="totalCount"
   :current-page="page"
-  per_page: this.pageSize
+  :per_page="pageSize"
   @current-change="onPageChange"
   >
-</el-pagination>
+</el-pagination> -->
+<!-- 完整分页 -->
+ <el-pagination
+      @current-change="onPageChange"
+      :current-page="page"
+      :page-sizes="[11, 21, 31, 41]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalCount">
+    </el-pagination>
     </el-tab-pane>
     <el-tab-pane label="粉丝画像" name="second">
       <div ref="main" style="width: 600px;height:400px;"></div>
@@ -74,9 +84,10 @@ export default {
     return {
       activeName: 'first',
       fansList: [],
-      pageSize: 20,
+      pageSize: 21,
       totalCount: 0,
       page: 1
+      // name: 'fans.name'
     }
   },
   mounted () {
@@ -130,7 +141,7 @@ export default {
     handleClick (tab, event) {
       console.log(tab, event)
     },
-    loadFansList (page = 1, pageSize) {
+    loadFansList (page = 1) {
       this.page = page
       getFansList({
         page,
@@ -138,7 +149,7 @@ export default {
       }).then(res => {
         this.fansList = res.data.data.results
         this.totalCount = res.data.data.total_count
-        console.log(res)
+        // console.log(res)
       })
     },
     onPageChange (page) {
@@ -151,6 +162,16 @@ export default {
 <style>
 .el-main{
   line-height: 100%;
-  /* text-align: center; */
+}
+.grid-content{
+ width: 120px;
+ height: 170px;
+ border: 1px dashed gray;
+ margin: 0 17px 15px 1px;
+ padding: 0 20px;
+}
+.text{
+  text-align: center;
+  margin-top: 10px;
 }
 </style>

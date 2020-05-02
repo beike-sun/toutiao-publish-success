@@ -79,7 +79,6 @@
 <el-dialog
  title="上传素材"
  :visible.sync="dialogUploadVisible"
- :append-to-body="true"
  >
  <!-- 注意：点击上传素材的路径一定要写原生的，因为这里的请求不是通过axios。组件默认content-type是文件形式。自行配置headers -->
  <el-upload
