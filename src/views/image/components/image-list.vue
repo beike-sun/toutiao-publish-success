@@ -32,7 +32,7 @@
     </el-image>
      <div
       class="selected"
-      v-if="selected===index"
+      v-if="isShowSelected && selected===index"
       ></div>
     <div
      class="image-action"
@@ -133,6 +133,10 @@ export default {
     isShowAction:{
       type: Boolean,
       default: true
+    },
+    isShowSelected: {
+      type: Boolean,
+      default:false
     }
   },
   created () {
