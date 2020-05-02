@@ -171,6 +171,8 @@ export default {
     },
     onPageChange (page) {
       this.loadImage(page)
+      // 设置对勾选中状态为空
+      this.selected = null
     },
     onCollected (img) {
       img.loading = true
