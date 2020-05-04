@@ -28,8 +28,9 @@
     >
   </el-avatar>
       <div
-      class="text"
-       >name</div>
+      class="fansName"
+       >{{fans.name}}</div>
+    <div class="btn"><el-button type="success" size="small">+关注</el-button></div>
   </el-col>
 </el-row>
  <!-- 分页 -->
@@ -165,7 +166,7 @@ export default {
 }
 .grid-content{
  width: 120px;
- height: 170px;
+ height: 200px;
  border: 1px dashed gray;
  margin: 0 17px 15px 1px;
  padding: 0 20px;
@@ -173,5 +174,12 @@ export default {
 .text{
   text-align: center;
   margin-top: 10px;
+}
+.fansName{
+  margin: 10px 0;
+  text-align: center;
+}
+.btn{
+  text-align: center;
 }
 </style>
