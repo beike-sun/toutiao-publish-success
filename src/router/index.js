@@ -12,8 +12,8 @@ import Fans from '@/views/fans'
 Vue.use(VueRouter)
 const routes = [
   {
-    path: '/login',
-    name: 'login',
+    path: '/',
+    name: '/',
     component: Login
   },
   {
