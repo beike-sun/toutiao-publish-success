@@ -9,6 +9,7 @@ import Image from '@/views/image'
 import Comment from '@/views/comment'
 import PersonSet from '@/views/personSetting'
 import Fans from '@/views/fans'
+import Discuss from '@/views/discuss'
 Vue.use(VueRouter)
 const routes = [
   {
@@ -55,6 +56,11 @@ const routes = [
         path: '/fans',
         name: 'fans',
         component: Fans
+      },
+      {
+        path: '/discuss',
+        name: 'discuss',
+        component: Discuss
       }
     ]
   }

@@ -38,6 +38,10 @@
         <i class="iconfont iconsetting"></i>
         <span slot="title">个人设置</span>
       </el-menu-item>
+      <el-menu-item index="discuss">
+        <i class="iconfont iconsetting"></i>
+        <span slot="title">二次评论</span>
+      </el-menu-item>
     </el-menu>
 </template>
 
